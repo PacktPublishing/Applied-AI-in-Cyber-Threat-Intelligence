@@ -1,0 +1,7 @@
+{
+  "command": "gcloud compute instances list --format=json",
+  "timestamp": "2026-03-01T23:56:20.851484Z",
+  "output": "[]\n",
+  "size_bytes": 3,
+  "execution_order": 4
+}

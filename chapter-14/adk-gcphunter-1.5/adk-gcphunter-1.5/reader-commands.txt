@@ -1,0 +1,29 @@
+#pre-reqs
+https://docs.cloud.google.com/sdk/docs/install-sdk
+https://www.python.org/downloads/
+
+gcloud components update
+#adk setup
+python3 -m venv .
+./scripts/activate.ps1 (or source ./bin/activate)
+#pip install google-adk
+pip install -r requirements.txt
+
+#run to ensure you are authenticated if outside of cloudshell
+gcloud auth login OR gcloud auth application-default login
+
+#need to set this too because gcloud tool call despite env variable sometimes not honored
+gcloud config set project <your project> 
+
+
+#non-interactive mode ensure intel sources are updated in cti_src
+python3 -m gcphunter_agent.agent (from the gcphunter folder) OR use python3 ./run_agent.py (from gcphunter folder)
+
+#interactive
+From the pwd of gcp hunter folder run ask web or ask run
+
+
+
+### ref only ###
+gcloud beta api-registry mcp enable
+adk create my_agent
