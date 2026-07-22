@@ -1,7 +1,0 @@
-{
-  "command": "gcloud logging sinks list --format=json",
-  "timestamp": "2026-03-01T23:56:07.942623Z",
-  "output": "[\n  {\n    \"destination\": \"logging.googleapis.com/projects/xtec-lab/locations/global/buckets/_Default\",\n    \"filter\": \"(empty filter)\",\n    \"name\": \"_Default\",\n    \"resourceName\": \"projects/xtec-lab/sinks/_Default\",\n    \"updateTime\": \"2026-02-14T02:21:10.093033730Z\"\n  },\n  {\n    \"destination\": \"logging.googleapis.com/projects/xtec-lab/locations/global/buckets/_Required\",\n    \"filter\": \"LOG_ID(\\\"cloudaudit.googleapis.com/activity\\\") OR LOG_ID(\\\"externalaudit.googleapis.com/activity\\\") OR LOG_ID(\\\"cloudaudit.googleapis.com/system_event\\\") OR LOG_ID(\\\"externalaudit.googleapis.com/system_event\\\") OR LOG_ID(\\\"cloudaudit.googleapis.com/access_transparency\\\") OR LOG_ID(\\\"externalaudit.googleapis.com/access_transparency\\\")\",\n    \"name\": \"_Required\",\n    \"resourceName\": \"projects/xtec-lab/sinks/_Required\"\n  }\n]\n",
-  "size_bytes": 813,
-  "execution_order": 3
-}
