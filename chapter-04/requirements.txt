@@ -1,0 +1,13 @@
+# requirements.txt
+# Dependencies for Chapter_4_Work.ipynb
+# Install with: pip install -r requirements.txt
+#
+# Note: time and concurrent.futures are Python standard library modules
+# and do not need to be installed separately.
+
+requests            # HTTP requests for concurrency/threading examples
+pandas              # DataFrame operations and descriptive statistics
+numpy               # Vectorized math, Monte Carlo simulation, percentile calculations
+ydata-profiling     # Automated EDA reports (ProfileReport)
+scikit-learn        # Classification models, train/test split, and evaluation metrics
+matplotlib          # Box plots, bar charts, and Monte Carlo visualizations
