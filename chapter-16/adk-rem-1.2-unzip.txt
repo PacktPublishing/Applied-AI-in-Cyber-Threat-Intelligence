@@ -1,0 +1,3 @@
+Use: "infected" without quotes. Turn off EDR/AV before unzipping in a safe area. This project contains live malware samples. 
+
+--- USE CAUTION BEFORE USING THE PROJECT ---
