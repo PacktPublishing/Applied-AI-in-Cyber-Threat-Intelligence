@@ -1,0 +1,15 @@
+# requirements-simulation.txt
+# Dependencies for Chap 7 Simulations.ipynb
+# Install with: pip install -r requirements-simulation.txt
+
+google-adk          # Same agents as agent.py (re-imported in the notebook)
+python-dotenv
+pydantic
+pandas>=2.1         # DataFrame operations and CSV I/O; Styler.map needs 2.1+
+jinja2              # pandas Styler HTML rendering (styled result tables)
+openpyxl            # pd.read_excel engine for Additional QIRs.xlsx
+numpy               # Numerical operations
+matplotlib          # Plot rendering
+seaborn             # Box / strip plots for grid-search results
+tqdm                # Progress bars
+jupyter             # JupyterLab/Notebook runtime to open and run the notebook

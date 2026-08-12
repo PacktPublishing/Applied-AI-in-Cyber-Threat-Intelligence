@@ -1,0 +1,7 @@
+# requirements.txt
+# Dependencies for the Chapter 7 Collection Pipeline (my_agent/agent.py)
+# Install with: pip install -r requirements.txt
+
+google-adk          # Google Agent Development Kit (includes google-genai)
+python-dotenv       # Loads GOOGLE_API_KEY from .env
+pydantic            # Structured output schema (JudgeVerdict)
