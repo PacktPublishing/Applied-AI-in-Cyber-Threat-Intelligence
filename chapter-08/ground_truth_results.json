@@ -1,0 +1,64 @@
+[
+  {
+    "name": "AiTM Session Hijacking \u2014 Full Chain",
+    "pipeline_count": 14,
+    "gt_count": 3,
+    "overlap": 2,
+    "missed": 1,
+    "extra": 11,
+    "confidence_accuracy": 50.0,
+    "verdict": "FAIL",
+    "n_iters": 3,
+    "confidence_details": [
+      {
+        "finding": "authentication_anomaly + credential_exposure + phishing_indicator",
+        "expected_confidence": "HIGH",
+        "pipeline_relevance": "ESSENTIAL",
+        "correct": true
+      },
+      {
+        "finding": "repository_access_anomaly",
+        "expected_confidence": "LOW",
+        "pipeline_relevance": "ESSENTIAL",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "name": "Ransomware via Stolen VPN Credentials",
+    "pipeline_count": 14,
+    "gt_count": 2,
+    "overlap": 2,
+    "missed": 0,
+    "extra": 5,
+    "confidence_accuracy": 100.0,
+    "verdict": "PASS",
+    "n_iters": 3,
+    "confidence_details": [
+      {
+        "finding": "authentication_anomaly + credential_exposure + endpoint_compromise",
+        "expected_confidence": "HIGH",
+        "pipeline_relevance": "ESSENTIAL",
+        "correct": true
+      },
+      {
+        "finding": "infrastructure_match",
+        "expected_confidence": "MEDIUM",
+        "pipeline_relevance": "ESSENTIAL",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "name": "BEC with OAuth Consent Abuse",
+    "pipeline_count": 0,
+    "gt_count": 2,
+    "overlap": 0,
+    "missed": 2,
+    "extra": 0,
+    "confidence_accuracy": 0.0,
+    "verdict": "PASS",
+    "n_iters": 1,
+    "confidence_details": []
+  }
+]

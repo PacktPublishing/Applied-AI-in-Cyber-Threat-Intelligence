@@ -1,0 +1,41 @@
+Scenario,Collection_Plan,Threat_Context,Expected_Findings,Expected_Key_Finding,Expected_Attribution
+AiTM Session Hijacking — Full Chain,"
+### 1. Internal Log Sources
+- **Okta System Log**: user.session.start, user.authentication.auth_via_mfa
+- **Microsoft Entra ID Sign-In Logs**: interactiveUserSignIn, conditionalAccessResult
+- **GitHub Audit Log**: git.clone, repo.access, personal_access_token.create
+- **CrowdStrike Falcon**: DetectionSummaryEvent, ProcessRollup2
+- **Proofpoint Email Security**: click.permitted, impostor.detected
+
+### 2. External / OSINT Sources
+- **SpyCloud**: stealer log monitoring for session cookies
+- **urlscan.io**: phishing infrastructure detection
+- **dnstwist**: typosquatting detection
+
+### 3. Threat Actor Tactics
+AiTM via Evilginx2 (T1557). Session cookie theft bypasses MFA.",Evilginx2 AiTM proxy phishing stealing partner session cookies. No new IdP login event — session reuse is the evasion technique.,"{""authentication_anomaly + credential_exposure + phishing_indicator"": {""confidence"": ""HIGH"", ""categories"": [""identity_provider"", ""breach_intelligence"", ""email_security""], ""description"": ""Core AiTM chain: phishing delivery \u2192 stolen cookie \u2192 anomalous session""}, ""repository_access_anomaly"": {""confidence"": ""LOW"", ""categories"": [""version_control""], ""description"": ""Post-compromise indicator \u2014 bulk repo clone (uncorroborated alone)""}, ""domain_permutation"": {""confidence"": ""LOW"", ""categories"": [""domain_recon""], ""description"": ""Phishing infrastructure \u2014 typosquatted domain (uncorroborated alone)""}}",AiTM session hijacking — HIGH confidence from 3+ source categories,Insufficient — no infrastructure_match with specific actor TTP
+Ransomware via Stolen VPN Credentials,"
+### 1. Internal Log Sources
+- **Okta System Log**: user.session.start, policy.evaluate_sign_on
+- **Palo Alto Networks Firewall (PAN-OS)**: TRAFFIC, THREAT events
+- **CrowdStrike Falcon**: DetectionSummaryEvent, ProcessRollup2
+- **CyberArk Privileged Access Manager**: PSM.Session.Start
+
+### 2. External / OSINT Sources
+- **HaveIBeenPwned API**: partner credential breach monitoring
+- **GreyNoise**: IP reputation classification
+
+### 3. Threat Actor Tactics
+VPN credential purchase from IAB, pivot to jump hosts, ransomware deployment.",Ransomware operators purchasing VPN/RDP credentials from initial access brokers. Authenticate to corporate VPN then pivot to accessible systems.,"{""authentication_anomaly + credential_exposure + endpoint_compromise"": {""confidence"": ""HIGH"", ""categories"": [""identity_provider"", ""breach_intelligence"", ""edr_xdr""], ""description"": ""Credential theft \u2192 VPN auth anomaly \u2192 endpoint compromise chain""}, ""infrastructure_match"": {""confidence"": ""MEDIUM"", ""categories"": [""network_security"", ""ip_reputation""], ""description"": ""C2 IP in firewall logs matching threat intel""}}",Ransomware initial access via stolen VPN credentials — HIGH confidence,Insufficient without specific actor infrastructure match
+BEC with OAuth Consent Abuse,"
+### 1. Internal Log Sources
+- **Microsoft 365 Unified Audit Log**: New-InboxRule, Set-MailboxPermission
+- **Microsoft Entra ID Audit Logs**: Consent to application
+- **Microsoft Entra ID Sign-In Logs**: interactiveUserSignIn
+- **Proofpoint Email Security**: click.permitted, impostor.detected
+
+### 2. External / OSINT Sources
+- **HaveIBeenPwned API**: credential exposure check
+
+### 3. Threat Actor Tactics
+BEC: compromise M365 account, create forwarding rules, grant OAuth consent.","Attacker compromises M365 account via phishing, creates inbox forwarding rules for email exfiltration, grants OAuth consent for persistent access.","{""authentication_anomaly + phishing_indicator + data_movement"": {""confidence"": ""HIGH"", ""categories"": [""identity_provider"", ""email_security"", ""saas_monitoring""], ""description"": ""Phishing \u2192 account compromise \u2192 inbox rule creation chain""}, ""privilege_escalation"": {""confidence"": ""MEDIUM"", ""categories"": [""identity_provider"", ""cloud_audit""], ""description"": ""OAuth consent grant expanding access (corroborated with auth anomaly)""}}",BEC with OAuth abuse — HIGH confidence,"Insufficient — BEC campaigns are commodity, no actor-specific infrastructure"
