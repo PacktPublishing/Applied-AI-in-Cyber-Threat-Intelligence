@@ -1,0 +1,8 @@
+# requirements-simulation.txt
+# Additional dependencies for Chap 12 Simulations.ipynb
+# Install with: pip install -r requirements-simulation.txt
+
+pandas>=2.1         # Simulation result tables and Styler rendering (Styler.map)
+jinja2              # pandas Styler HTML rendering (required by the .style accessor)
+ipython             # IPython.display.HTML for visualization cells
+jupyter             # JupyterLab/Notebook runtime to open and run the notebook
