@@ -1,0 +1,16 @@
+# requirements.txt
+# Dependencies for the Chapter 13 companion notebook (CTI_ML.ipynb)
+# Install with: pip install -r requirements.txt
+
+numpy>=2.0
+pandas>=2.0
+scikit-learn>=1.4
+scipy>=1.13
+matplotlib>=3.8
+requests>=2.30
+xgboost>=2.0
+lightgbm>=4.0
+shap>=0.45
+plotly>=5.20
+kaleido           # plotly static-image export backend; needed for Figure 13.9 Sankey PNG render
+jupyter           # JupyterLab/Notebook runtime to open and run the notebook
