@@ -1,0 +1,21 @@
+Requirement,Specificity Rating,Specificity Explanation,Decision Rating,Decision Explanation,Feasibility Rating,Feasibility Explanation,Overall QIR Grade
+What cyber threats should we worry about this year?,Poor,"Very broad, undefined and multi-dimensional.",Poor,No single decision tied to requirement.,Good,High-level trends answerable but unfocused.,Poor
+How risky is our cloud environment?,Poor,Scope unclear; not a single question.,Good,General risk posture but not decision-specific.,Good,Can partially evaluate from assessments.,Poor
+What are the top cyber risks to our environment?,Poor,"Broad, multi-dimensional.",Poor,No decision dependency.,Better,Cataloging possible but unfocused.,Poor
+Which threat actors target companies like us?,Good,Narrowed to actor set but still broad.,Good,Supports awareness—not a single decision.,Better,Threat intel available from multiple sources.,Good
+Are any of our privileged accounts showing anomalous activity compared to last month?,Good,Scoped to privileged accounts but comparative.,Good,Supports monitoring—not one decision.,Better,Logs and UEBA available.,Good
+Are phishing attacks increasing in our sector this quarter?,Better,"Clear technique, sector, and timeframe.",Good,Informs posture—not one decision.,Better,Telemetry exists to answer.,Better
+Is the new vulnerability in Library X likely to affect our applications during this sprint?,Better,"Specific library, asset class, time window.",Better,Supports remediation prioritization decisions.,Better,Requires scanning and mapping but doable.,Better
+Are malware loaders L1 or L2 being used by adversaries to target organizations running our tech stack?,Better,"Specific loaders, environment context.",Better,Helps detection engineering decisions.,Better,Threat intel exists.,Better
+Is Threat Actor A deploying stolen OAuth tokens against organizations in our region this month?,Better,Actor + technique + region + timeframe.,Better,Supports auth control changes.,Better,Logs and intel available.,Better
+Does Malware Variant M have capabilities to bypass our current EDR configuration?,Better,Specific malware + capability + environment.,Better,Informs EDR tuning.,Good,Requires sandboxing.,Better
+Are any of our GitHub repositories being cloned from suspicious IPs this week?,Better,Technique + asset + timeframe.,Better,Supports investigation.,Better,Logs available.,Better
+Is Threat Actor G using our brand in lookalike domain campaigns this week?,Better,Actor + impersonation + timeframe.,Better,Supports takedowns.,Better,Monitoring feasible.,Better
+Is Threat Group T currently attempting to access our cloud tenant via OAuth app abuse?,Best,"Single actor, technique, target.",Best,Directly triggers IR actions.,Better,Depends on telemetry depth.,Best
+Should we block IP Range R today due to confirmed malicious activity targeting our VPN?,Best,"Clear action, timeframe, indicator.",Best,Binary block/no-block decision.,Best,Log data and controls available.,Best
+Is the newly reported zero-day in Product P exploitable in our configuration before Patch Q releases?,Best,Asset + vulnerability + time explicit.,Best,Determines patch/mitigation timing.,Better,Lab validation needed but feasible.,Best
+Is Domain D currently being used in phishing attacks targeting our employee base this week?,Best,"Specific domain, TTP, user group.",Best,Supports takedowns and comms.,Best,Monitoring systems can confirm.,Best
+Is our externally facing SSO portal under active credential-stuffing attack today?,Best,Asset + attack type + timeframe.,Best,Drives immediate defensive actions.,Best,Telemetry readily accessible.,Best
+Is VPN Gateway G being probed using CVE‑XXXX‑YYYY exploitation attempts in the last 48 hours?,Best,Asset + CVE + timeframe.,Best,Emergency mitigation decision.,Best,Telemetry available.,Best
+Should we revoke access for Contractor C due to anomalous authentication events from Country X?,Best,Clear trigger + identity + location.,Best,Binary revoke/no-revoke decision.,Best,Identity logs available.,Best
+Is our WAF blocking exploitation attempts associated with Exploit Kit E in the last 24 hours?,Best,Asset + kit + timeframe.,Best,Supports tuning and blocking.,Best,WAF logs immediate.,Best

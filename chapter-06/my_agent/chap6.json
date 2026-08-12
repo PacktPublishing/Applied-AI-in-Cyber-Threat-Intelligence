@@ -1,0 +1,11 @@
+{
+  "specificity_rating": "number",
+  "specificity_explanation": "string",
+  "specificity_recommended_actions": "string or null",
+  "decision_centricity_rating": "number",
+  "decision_centricity_explanation": "string",
+  "decision_centricity_recommended_actions": "string or null",
+  "feasibility_rating": "number",
+  "feasibility_explanation": "string",
+  "feasibility_recommended_actions": "string or null"
+}

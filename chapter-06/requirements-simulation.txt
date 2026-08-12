@@ -1,0 +1,15 @@
+# requirements-simulation.txt
+# Dependencies for Chap 6 Simulations.ipynb
+# Install with: pip install -r requirements-simulation.txt
+#
+# Note: google.colab (userdata) is pre-installed in Google Colab
+# and does not need to be installed separately.
+
+google-genai        # Google Gemini API client (google.genai, google.genai.types)
+pandas              # DataFrame operations and CSV I/O
+numpy               # Numerical operations and NaN handling
+matplotlib          # Plot rendering (matplotlib.pyplot)
+seaborn             # Boxplot/stripplot visualization (imported as sns)
+scikit-learn        # Mean Absolute Error scoring (sklearn.metrics)
+tqdm                # Progress bars for simulation loops
+jupyter             # JupyterLab/Notebook runtime to open and run the notebook
