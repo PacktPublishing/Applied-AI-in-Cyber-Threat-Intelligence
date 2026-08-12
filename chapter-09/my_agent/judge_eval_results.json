@@ -1,0 +1,343 @@
+{
+  "total_cases": 14,
+  "correct_verdicts": 12,
+  "accuracy": 0.857,
+  "results": [
+    {
+      "id": "eval_01_all_valid_complete",
+      "description": "Valid plan with correct SATs and good coverage \u2014 should PASS",
+      "expected_verdict": "PASS",
+      "actual_verdict": "FAIL",
+      "verdict_match": false,
+      "expected_confirmed": [
+        "ACH",
+        "What-If Analysis"
+      ],
+      "actual_confirmed": [
+        "ACH",
+        "What-If Analysis"
+      ],
+      "expected_unverified": [],
+      "actual_unverified": [
+        "Analytic Spectrum Classification Consistency",
+        "Taxonomy Diversity Check"
+      ],
+      "expected_missing": [],
+      "actual_missing": []
+    },
+    {
+      "id": "eval_02_one_hallucination",
+      "description": "Includes a non-catalog technique (SWOT Analysis) \u2014 should FAIL",
+      "expected_verdict": "FAIL",
+      "actual_verdict": "FAIL",
+      "verdict_match": true,
+      "expected_confirmed": [
+        "Indicators of Change"
+      ],
+      "actual_confirmed": [
+        "Indicators of Change"
+      ],
+      "expected_unverified": [
+        "SWOT Analysis"
+      ],
+      "actual_unverified": [
+        "SWOT Analysis"
+      ],
+      "expected_missing": [],
+      "actual_missing": [
+        "Analysis of Competing Hypotheses",
+        "Key Assumptions Check"
+      ]
+    },
+    {
+      "id": "eval_03_two_hallucinations",
+      "description": "Two non-catalog techniques (Delphi Method + Bayesian Network) \u2014 should FAIL",
+      "expected_verdict": "FAIL",
+      "actual_verdict": "FAIL",
+      "verdict_match": true,
+      "expected_confirmed": [
+        "ACH"
+      ],
+      "actual_confirmed": [
+        "ACH"
+      ],
+      "expected_unverified": [
+        "Bayesian Network Analysis",
+        "Delphi Method"
+      ],
+      "actual_unverified": [
+        "Bayesian Network Analysis",
+        "Delphi Method"
+      ],
+      "expected_missing": [],
+      "actual_missing": [
+        "What-If Analysis"
+      ]
+    },
+    {
+      "id": "eval_04_valid_but_missing_critical",
+      "description": "All valid SATs but missing ACH when hypotheses exist \u2014 should be PARTIAL",
+      "expected_verdict": "PARTIAL",
+      "actual_verdict": "PARTIAL",
+      "verdict_match": true,
+      "expected_confirmed": [
+        "Key Assumptions Check",
+        "What-If Analysis"
+      ],
+      "actual_confirmed": [
+        "Key Assumptions Check",
+        "What-If Analysis"
+      ],
+      "expected_unverified": [],
+      "actual_unverified": [],
+      "expected_missing": [
+        "ACH"
+      ],
+      "actual_missing": [
+        "Analysis of Competing Hypotheses"
+      ]
+    },
+    {
+      "id": "eval_05_wrong_scenario_match",
+      "description": "Structured Brainstorming used when evidence is sufficient for ACH \u2014 should FAIL",
+      "expected_verdict": "FAIL",
+      "actual_verdict": "FAIL",
+      "verdict_match": true,
+      "expected_confirmed": [
+        "What-If Analysis"
+      ],
+      "actual_confirmed": [
+        "What-If Analysis"
+      ],
+      "expected_unverified": [
+        "Structured Brainstorming"
+      ],
+      "actual_unverified": [
+        "Structured Brainstorming"
+      ],
+      "expected_missing": [
+        "ACH"
+      ],
+      "actual_missing": [
+        "Analysis of Competing Hypotheses (ACH)"
+      ]
+    },
+    {
+      "id": "eval_06_near_miss_names",
+      "description": "Near-miss technique names (Competing Hypotheses Analysis vs ACH) \u2014 tests name matching",
+      "expected_verdict": "PARTIAL",
+      "actual_verdict": "PARTIAL",
+      "verdict_match": true,
+      "expected_confirmed": [
+        "Analysis of Competing Hypotheses",
+        "What-If Analysis"
+      ],
+      "actual_confirmed": [
+        "Analysis of Competing Hypotheses",
+        "What-If Analysis"
+      ],
+      "expected_unverified": [],
+      "actual_unverified": [],
+      "expected_missing": [],
+      "actual_missing": [
+        "Key Assumptions Check",
+        "Quality of Information Check"
+      ]
+    },
+    {
+      "id": "eval_07_missing_ioc_for_provisional",
+      "description": "Provisional attribution but no Indicators of Change recommended \u2014 PARTIAL",
+      "expected_verdict": "PARTIAL",
+      "actual_verdict": "PARTIAL",
+      "verdict_match": true,
+      "expected_confirmed": [
+        "ACH",
+        "Red Team Analysis"
+      ],
+      "actual_confirmed": [
+        "ACH",
+        "Red Team Analysis"
+      ],
+      "expected_unverified": [],
+      "actual_unverified": [
+        "ACH",
+        "Red Team Analysis"
+      ],
+      "expected_missing": [
+        "Indicators of Change"
+      ],
+      "actual_missing": [
+        "Indicators of Change",
+        "Key Assumptions Check",
+        "Quality of Information Check"
+      ]
+    },
+    {
+      "id": "eval_08_perfect_plan",
+      "description": "Comprehensive 4-technique plan perfectly matched to scenario \u2014 PASS",
+      "expected_verdict": "PASS",
+      "actual_verdict": "PASS",
+      "verdict_match": true,
+      "expected_confirmed": [
+        "ACH",
+        "Devil's Advocacy",
+        "Key Assumptions Check",
+        "What-If Analysis"
+      ],
+      "actual_confirmed": [
+        "ACH",
+        "Devil's Advocacy",
+        "Key Assumptions Check",
+        "What-If Analysis"
+      ],
+      "expected_unverified": [],
+      "actual_unverified": [],
+      "expected_missing": [],
+      "actual_missing": []
+    },
+    {
+      "id": "eval_09_relevance_test",
+      "description": "Valid techniques but mostly tangential to the scenario \u2014 tests relevance calibration",
+      "expected_verdict": "FAIL",
+      "actual_verdict": "FAIL",
+      "verdict_match": true,
+      "expected_confirmed": [
+        "Red Team Analysis"
+      ],
+      "actual_confirmed": [],
+      "expected_unverified": [
+        "Structured Brainstorming"
+      ],
+      "actual_unverified": [
+        "Red Team Analysis",
+        "Structured Brainstorming"
+      ],
+      "expected_missing": [
+        "What-If Analysis"
+      ],
+      "actual_missing": [
+        "What-If Analysis"
+      ]
+    },
+    {
+      "id": "eval_10_empty_analysis",
+      "description": "No SATs recommended at all \u2014 should FAIL",
+      "expected_verdict": "FAIL",
+      "actual_verdict": "FAIL",
+      "verdict_match": true,
+      "expected_confirmed": [],
+      "actual_confirmed": [],
+      "expected_unverified": [],
+      "actual_unverified": [
+        "consider engaging external forensics support",
+        "investigate further"
+      ],
+      "expected_missing": [
+        "ACH",
+        "What-If Analysis"
+      ],
+      "actual_missing": [
+        "Analysis of Competing Hypotheses",
+        "Key Assumptions Check",
+        "Quality of Information Check",
+        "What-If Analysis"
+      ]
+    },
+    {
+      "id": "eval_11_new_technique_valid",
+      "description": "Devil's Advocacy correctly applied to challenge prevailing single-view assessment \u2014 PASS",
+      "expected_verdict": "PASS",
+      "actual_verdict": "PARTIAL",
+      "verdict_match": false,
+      "expected_confirmed": [
+        "ACH",
+        "Devil's Advocacy"
+      ],
+      "actual_confirmed": [
+        "ACH",
+        "Devil's Advocacy"
+      ],
+      "expected_unverified": [],
+      "actual_unverified": [],
+      "expected_missing": [],
+      "actual_missing": [
+        "Key Assumptions Check"
+      ]
+    },
+    {
+      "id": "eval_12_taxonomy_overload",
+      "description": "3 Imaginative Thinking techniques in same plan \u2014 violates cross-category rule \u2014 FAIL",
+      "expected_verdict": "FAIL",
+      "actual_verdict": "FAIL",
+      "verdict_match": true,
+      "expected_confirmed": [
+        "What-If Analysis"
+      ],
+      "actual_confirmed": [
+        "Premortem Analysis",
+        "Scenario Analysis",
+        "What-If Analysis"
+      ],
+      "expected_unverified": [
+        "Premortem Analysis",
+        "Scenario Analysis"
+      ],
+      "actual_unverified": [],
+      "expected_missing": [
+        "ACH"
+      ],
+      "actual_missing": [
+        "Analysis of Competing Hypotheses"
+      ]
+    },
+    {
+      "id": "eval_13_new_hallucination",
+      "description": "SWOT and Delphi Method still not in expanded catalog \u2014 FAIL",
+      "expected_verdict": "FAIL",
+      "actual_verdict": "FAIL",
+      "verdict_match": true,
+      "expected_confirmed": [
+        "ACH"
+      ],
+      "actual_confirmed": [
+        "ACH"
+      ],
+      "expected_unverified": [
+        "Delphi Method",
+        "SWOT Analysis"
+      ],
+      "actual_unverified": [
+        "Delphi Method",
+        "SWOT Analysis"
+      ],
+      "expected_missing": [],
+      "actual_missing": [
+        "Red Team Analysis",
+        "What-If Analysis"
+      ]
+    },
+    {
+      "id": "eval_14_deception_detection_required",
+      "description": "State actor suspected but Deception Detection omitted \u2014 PARTIAL",
+      "expected_verdict": "PARTIAL",
+      "actual_verdict": "PARTIAL",
+      "verdict_match": true,
+      "expected_confirmed": [
+        "ACH",
+        "Key Assumptions Check"
+      ],
+      "actual_confirmed": [
+        "ACH",
+        "Key Assumptions Check"
+      ],
+      "expected_unverified": [],
+      "actual_unverified": [],
+      "expected_missing": [
+        "Deception Detection"
+      ],
+      "actual_missing": [
+        "Deception Detection"
+      ]
+    }
+  ]
+}
