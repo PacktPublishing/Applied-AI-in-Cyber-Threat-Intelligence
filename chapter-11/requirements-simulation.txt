@@ -1,0 +1,8 @@
+google-adk
+python-dotenv
+pydantic
+pandas>=2.1
+jinja2
+numpy
+ipython
+jupyter
