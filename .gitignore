@@ -1,0 +1,107 @@
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+wheels/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Manuscript files
+*.docx
+
+# Internal editorial artifacts (not reader-facing)
+REVIEW_*.md
+CHAPTER_FRICTION_AUDIT.md
+CHAPTER_REVIEW_*.md
+
+# Local editor workspace files
+*.code-workspace
+
+# Internal working materials (not for the public repo)
+Archive/
+Build Week Starter Kit/
+review_tools_ch12/
+notes.md
+enhance_image.py
+
+# Local Claude Code state — ship only the book companion skills
+.claude/*
+!.claude/skills/
+
+# Locally extracted tool archives (readers get the zips)
+chapter-14/adk-gcphunter-1.5/
+
+# Book-only chapter infographics (rights-managed; appear in the printed book, not the repo)
+chapter-08/Images/Ch8-*
+chapter-09/Images/9-*
+chapter-11/Images/11-*
+
+# Large datasets
+data/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Test & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Type Checking
+.mypy_cache/
+.dmypy.json
+.pytype/
+
+# ADK / Google Cloud
+.adk/
+service_account*.json
+*-credentials.json
+credentials.json
+
+# Secrets
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/

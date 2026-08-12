@@ -26,6 +26,28 @@ Designed for threat intelligence analysts, security engineers, and SOC practitio
 
 ---
 
+## 📂 Chapter Code
+
+Each chapter folder contains its own README with setup instructions, lab code, and evaluation notebooks.
+
+| Chapter | Folder | What's Inside |
+|---|---|---|
+| 4 | [chapter-04](chapter-04/) | Python foundations for CTI — pandas, EDA, concurrency, ML classification, Monte Carlo (notebook, no API key needed) |
+| 5 | [chapter-05](chapter-05/) | Concept figures for the AI landscape, context architecture, and evaluation hierarchy |
+| 6 | [chapter-06](chapter-06/) | Intelligence Requirement Evaluator — two-agent ADK system + prompt-strategy grid search |
+| 7 | [chapter-07](chapter-07/) | Collection stage — self-refining collection-plan pipeline + three-layer evaluation |
+| 8 | [chapter-08](chapter-08/) | Processing stage — cross-source corroboration brief pipeline + evaluations |
+| 9 | [chapter-09](chapter-09/) | Analysis stage — Structured Analytic Technique scaffolding pipeline + evaluations |
+| 10 | [chapter-10](chapter-10/) | Production stage — argument-mapped intelligence products + evaluations |
+| 11 | [chapter-11](chapter-11/) | Dissemination stage — need-to-know stakeholder routing pipeline + evaluations |
+| 12 | [chapter-12](chapter-12/) | Feedback stage — follow-on QIR generation pipeline + evaluations |
+| 13 | [chapter-13](chapter-13/) | Classical ML for CTI — vulnerability prioritization, exploitation prediction, forecasting (notebook + pinned datasets, no API key needed) |
+| 14 | [chapter-14](chapter-14/) | GCP Hunter ADK agent (zip) |
+| 15 | [chapter-15](chapter-15/) | ELK TIDE generator (zip) |
+| 16 | [chapter-16](chapter-16/) | ADK REM, agentic CTI prioritization, and OPTIC IOC extension (zips) |
+
+---
+
 ## 🎯 What You Will Learn
 
 - 🤖 **Build Multi-Agent AI Pipelines:** Design agentic workflows tailored specifically to CTI operations.
