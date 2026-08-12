@@ -1,0 +1,20 @@
+# requirements-simulation.txt
+# Dependencies for Chap 10 Simulations.ipynb
+# Install with: pip install -r requirements-simulation.txt
+
+google-adk          # Same agents as agent.py (re-imported in the notebook)
+python-dotenv
+pydantic
+pandas>=2.1         # DataFrame operations and CSV I/O; Styler.map needs 2.1+
+jinja2              # pandas Styler HTML rendering (styled result tables)
+numpy               # Numerical operations
+tqdm                # Progress bars
+ipython             # IPython.display for inline report rendering
+networkx            # Argument-map DAG construction (section 9)
+matplotlib          # Static argument-map render (section 9)
+plotly              # Interactive argument-map render (section 9)
+pydot               # Graphviz dot layout binding for networkx
+kaleido             # plotly static-image export backend; needed to regenerate the interactive-map PNG
+jupyter             # JupyterLab/Notebook runtime to open and run the notebook
+# Optional: the system Graphviz binary enables the dot layout used by
+# section 9; without it the renderer falls back to a multipartite layout.
